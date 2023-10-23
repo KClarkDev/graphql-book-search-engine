@@ -41,7 +41,7 @@ const resolvers = {
       // Return an `Auth` object that consists of the signed token and user's information
       return { token, user };
     },
-    addUser: async (parent, { username, email, password }) => {
+    addUser: async (parent, { username, email, password }, context) => {
       // First we create the user
       const user = await User.create({ username, email, password });
       // To reduce friction for the user, we immediately sign a JSON Web Token and log the user in after they are created
@@ -51,6 +51,7 @@ const resolvers = {
     },
 
     saveBook: async (parent, args, context) => {
+      console.log("context.user:", context.user);
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },

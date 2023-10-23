@@ -60,29 +60,18 @@ const SearchBooks = () => {
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-    console.log(`The bookToSave variable is ${bookToSave}`);
-    console.log(bookToSave.bookId);
-    console.log(bookToSave);
     try {
+      console.log("Saving book with ID:", bookToSave.bookId);
+      console.log("Book data:", bookToSave);
       const response = await saveBook({
         variables: { ...bookToSave },
       });
 
-      console.log("Here's the response:");
-      console.log(response);
+      console.log("Mutation response:", response);
 
-      if (response.data) {
-        // If the response contains data, you can handle it here
-        // For example, check response.data.saveBook for success or error fields.
-        // Update savedBookIds if it's a successful response.
-      } else if (response.errors) {
-        // If the response contains errors, handle them here
-        console.error("GraphQL errors:", response.errors);
-      } else {
-        console.error("Unexpected response format.");
-      }
+      // if book successfully saves to user's account, save book id to state
+      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
-      console.log("OOPS error");
       console.error(err);
     }
   };
