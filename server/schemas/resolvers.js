@@ -5,8 +5,7 @@ const resolvers = {
   // retrieves a specific user by their username. Includes the user's saved books when returning the data
   Query: {
     getMe: async (parent, args, context) => {
-      console.log("Running query getMe - retrieving data from signed in user");
-      console.log(context.user);
+      console.log("context.user for getMe:", context.user);
       if (context.user) {
         console.log("Within IF statement in resolvers");
         const userData = await User.findOne({ _id: context.user._id }).select(
@@ -55,7 +54,7 @@ const resolvers = {
     },
 
     saveBook: async (parent, args, context) => {
-      console.log("context.user:", context.user);
+      console.log("context.user: for saveBook", context.user);
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -69,7 +68,8 @@ const resolvers = {
       throw AuthenticationError;
     },
 
-    removeBook: async (parent, { bookId }) => {
+    removeBook: async (parent, args, context) => {
+      console.log("context.user for removeBook:", context.user);
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
