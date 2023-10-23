@@ -10,7 +10,9 @@ import { REMOVE_BOOK } from "../utils/mutations";
 const SavedBooks = () => {
   // use useQuery hook to make query request
   const { loading, data } = useQuery(GET_ME);
-  const userData = data?.me || {};
+  const userData = data?.getMe || {};
+  console.log("Here's the user data:");
+  console.log(userData);
 
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
